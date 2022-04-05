@@ -1,46 +1,61 @@
-# Getting Started with Create React App
+CONFIGURE THE DEBUGGER:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Go to the Run view (Ctrl+Shift+D) and click on the gear button or Create a 'launch.json' link to create a launch.json debugger configuration file. Choose 'Edge: launch' from the Select Environment dropdown list. This will create a 'launch.json' file in a new .vscode folder in your project which includes a configuration to launch the website.
 
-## Available Scripts
+Change the port of the url from 8080 to 3000 (default port for new react projects).
 
-In the project directory, you can run:
+LINTING:
 
-### `npm start`
+First, install the ESLint command-line tool:
+npm install -g eslint
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Then install the ESLint extension by going to the Extensions view and typing 'eslint'.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Once the ESLint extension is installed and VS Code reloaded, you'll want to create an ESLint configuration file, .eslintrc.js. You can create one using the extension's ESLint: Create ESLint configuration command from the Command Palette (Ctrl+Shift+P).
 
-### `npm test`
+The command will prompt you to answer a series of questions in the Terminal panel. Take the defaults, and it will create a .eslintrc.js file in your project root.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+ESLint will now analyze open files.  You can modify the ESLint rules in the .eslintrc.js file.
 
-### `npm run build`
+INSTALLING REDUX:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Redux is not React specific by nature.  So it's needed to install react-redux on top of redux:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+npm install redux react-redux
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+To work more efficiently with redux, you should work with redux-toolkit.  This will spare a lot of lines of code and make you redux related code more readable, maintainable and lean.  With regular redux.  To install redux-toolkit:
 
-### `npm run eject`
+npm install @reduxjs/toolkit
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+HOW DOES REDUX WORK?
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Redux is all about having one central data (State) store in your application.  Whichever cross-component or app-wide state you have goes into this one store.  
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+If some data there changes, we want to know about that in our component so that the UI can change.
 
-## Learn More
+For that, our Components subscribe to the store.  Then, whenever data changes, the store notifies the subscribed Components.  
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+How can we change the data present in the store?  One important rule: Components never ever directly manipulate the store data.  We have the subscription, but we don't have a direct data-flow in the other direction.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Therefore, we have a Reducer Function whose purpose is to update the Store Data.  How can we connect our components to those Reducer Function?  We can through "Actions".
+
+Components dispatch Actions, we could also say that they "trigger" Actions.  An Action is simply a javascript object which describes the kind of operation the reducer should perform.  
+
+Redux forward those actions to the reducer, reads the description of the desired operation that should be performed, and then, this operation is performed by the Reducer.  This will have for effect to replace the existing state in the Data Store, by a new one.  
+
+When that happens, subscribed Components are notified and are re-executed.
+
+Read the following links for better understanding of Redux Pros and Cons :
+https://blog.boardinfinity.com/working-with-redux-pros-and-cons/
+https://redux.js.org/faq/general#when-should-i-use-redux
+
+WHICH IS BETTER?
+
+"You may be thinking now, so which is better? There is no answer as to which is better. Instead, it's the same case as almost every other tool out there, it depends on what you're building.
+If you have a small codebase with hardly any state changes, use vanilla React or maybe even Context API.
+If you have a large app, multiple people working on it and states being used in many places of your app, you may need to consider using Redux.
+Need complex logic when your updating the state, use Redux.
+There is a great deal of planning that needs to happen before starting on your next big idea. Most of the time newbies will think of React and Redux as a combo deal when really they should focus on mastering React fundamentals."
+
+source: https://levelup.gitconnected.com/you-might-not-need-redux-883cd1fcbab0
