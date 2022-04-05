@@ -1,3 +1,8 @@
+START WITH:
+
+npm install
+npm start (if you want to run the program)
+
 CONFIGURE THE DEBUGGER:
 
 Go to the Run view (Ctrl+Shift+D) and click on the gear button or Create a 'launch.json' link to create a launch.json debugger configuration file. Choose 'Edge: launch' from the Select Environment dropdown list. This will create a 'launch.json' file in a new .vscode folder in your project which includes a configuration to launch the website.
